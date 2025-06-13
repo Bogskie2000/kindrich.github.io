@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kindrich Consumer Goods Trading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            border: 4px solid rgba(255,255,255,0.2);
+        }
+        
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .logo-fallback {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .company-name {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9ff;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-tab.active {
+            color: #667eea;
+            background: white;
+        }
+        
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+        
+        .nav-tab:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+        
+        .contact-item:hover {
+            background: #e8f4fd;
+            border-left-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .contact-details {
+            flex: 1;
+        }
+        
+        .contact-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .contact-value {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+            margin-top: 2px;
+            word-break: break-word;
+        }
+        
+        .description {
+            background: linear-gradient(135deg, #f8f9ff, #e8f4fd);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555;
+            text-align: justify;
+        }
+        
+        .employees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .employee-card {
+            background: linear-gradient(135deg, #f8f9ff, #ffffff);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e8f4fd;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .employee-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .employee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.15);
+        }
+        
+        .employee-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            overflow: hidden;
+            border: 3px solid white;
+        }
+        
+        .employee-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .employee-avatar-fallback {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .employee-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .employee-position {
+            font-size: 14px;
+            color: #667eea;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .employee-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .employee-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .employee-contact-item span:first-child {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .employee-bio {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e8f4fd;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .action-btn.secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .action-btn.secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                margin: 10px 0;
+            }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .company-name {
+                font-size: 22px;
+            }
+            
+            .nav-tab {
+                padding: 12px 10px;
+                font-size: 12px;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .employees-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="https://i.postimg.cc/NfSqbrZN/Your-paragraph-text-8.png" alt="Kindrich Logo" class="logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="logo-fallback" style="display: none;">KC</div>
+            </div>
+            <div class="company-name">Kindrich Consumer Goods Trading</div>
+            <div class="tagline">Quality Products, Trusted Service</div>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('company')">🏢 Company Info</button>
+            <button class="nav-tab" onclick="showTab('team')">👥 Our Team</button>
+            <button class="nav-tab" onclick="showTab('contact')">📞 Contact</button>
+        </div>
+        
+        <div class="content">
+            <!-- Company Info Tab -->
+            <div id="company" class="tab-content active">
+                <div class="section-title">
+                    🏢 About Kindrich Consumer Goods Trading
+                </div>
+                <div class="description">
+                    Welcome to Kindrich Consumer Goods Trading, your trusted partner in quality consumer products. We are a leading distributor and retailer specializing in a wide range of consumer goods, from household essentials to premium lifestyle products. Our commitment to excellence, competitive pricing, and exceptional customer service has made us a preferred choice for businesses and consumers alike. With years of experience in the industry, we pride ourselves on building lasting relationships with our clients and suppliers, ensuring reliable supply chains and consistent product quality.
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="saveContact()">
+                        <span>💾</span> Save Contact
+                    </button>
+                    <button class="action-btn secondary" onclick="shareInfo()">
+                        <span>📤</span> Share Company
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Team Tab -->
+            <div id="team" class="tab-content">
+                <div class="section-title">
+                    👥 Meet Our Team
+                </div>
+                <div class="employees-grid">
+                    <div class="employee-card">
+                        <div class="employee-avatar">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Michael Johnson" class="employee-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="employee-avatar-fallback" style="display: none;">MJ</div>
+                        </div>
+                        <div class="employee-name">Jonathan F. Galve</div>
+                        <div class="employee-position">Chief Executive Officer</div>
+                        <div class="employee-contact">
+                            <div class="employee-contact-item">
+                                <span>📞</span>
+                                <span>+1 (555) 101-2001</span>
+                            </div>
+                            <div class="employee-contact-item">
+                                <span>📧</span>
+                                <span>mjohnson@kindrich.com</span>
+                            </div>
+                        </div>
+                        <div class="employee-bio">
+                            Leading Kindrich with 15+ years of experience in consumer goods trading. Focused on strategic growth and operational excellence.
+                        </div>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <div class="employee-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b586?w=200&h=200&fit=crop&crop=face" alt="Sarah Chen" class="employee-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="employee-avatar-fallback" style="display: none;">SC</div>
+                        </div>
+                        <div class="employee-name">Sarah Chen</div>
+                        <div class="employee-position">Sales Director</div>
+                        <div class="employee-contact">
+                            <div class="employee-contact-item">
+                                <span>📞</span>
+                                <span>+1 (555) 101-2002</span>
+                            </div>
+                            <div class="employee-contact-item">
+                                <span>📧</span>
+                                <span>schen@kindrich.com</span>
+                            </div>
+                        </div>
+                        <div class="employee-bio">
+                            Drives sales strategy and client relationships. Expert in market analysis and business development with proven track record.
+                        </div>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <div class="employee-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="David Rodriguez" class="employee-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="employee-avatar-fallback" style="display: none;">DR</div>
+                        </div>
+                        <div class="employee-name">David Rodriguez</div>
+                        <div class="employee-position">Operations Manager</div>
+                        <div class="employee-contact">
+                            <div class="employee-contact-item">
+                                <span>📞</span>
+                                <span>+1 (555) 101-2003</span>
+                            </div>
+                            <div class="employee-contact-item">
+                                <span>📧</span>
+                                <span>drodriguez@kindrich.com</span>
+                            </div>
+                        </div>
+                        <div class="employee-bio">
+                            Oversees daily operations and supply chain management. Ensures efficient processes and quality control standards.
+                        </div>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <div class="employee-avatar">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face" alt="Lisa Thompson" class="employee-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="employee-avatar-fallback" style="display: none;">LT</div>
+                        </div>
+                        <div class="employee-name">Lisa Thompson</div>
+                        <div class="employee-position">Marketing Manager</div>
+                        <div class="employee-contact">
+                            <div class="employee-contact-item">
+                                <span>📞</span>
+                                <span>+1 (555) 101-2004</span>
+                            </div>
+                            <div class="employee-contact-item">
+                                <span>📧</span>
+                                <span>lthompson@kindrich.com</span>
+                            </div>
+                        </div>
+                        <div class="employee-bio">
+                            Creative marketing professional specializing in brand development and digital marketing strategies for consumer goods.
+                        </div>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <div class="employee-avatar">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face" alt="James Wilson" class="employee-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="employee-avatar-fallback" style="display: none;">JW</div>
+                        </div>
+                        <div class="employee-name">James Wilson</div>
+                        <div class="employee-position">Finance Director</div>
+                        <div class="employee-contact">
+                            <div class="employee-contact-item">
+                                <span>📞</span>
+                                <span>+1 (555) 101-2005</span>
+                            </div>
+                            <div class="employee-contact-item">
+                                <span>📧</span>
+                                <span>jwilson@kindrich.com</span>
+                            </div>
+                        </div>
+                        <div class="employee-bio">
+                            Financial expert managing company finances, budgeting, and investment strategies. CPA with 12+ years experience.
+                        </div>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <div class="employee-avatar">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face" alt="Amanda Garcia" class="employee-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="employee-avatar-fallback" style="display: none;">AG</div>
+                        </div>
+                        <div class="employee-name">Amanda Garcia</div>
+                        <div class="employee-position">Customer Relations Manager</div>
+                        <div class="employee-contact">
+                            <div class="employee-contact-item">
+                                <span>📞</span>
+                                <span>+1 (555) 101-2006</span>
+                            </div>
+                            <div class="employee-contact-item">
+                                <span>📧</span>
+                                <span>agarcia@kindrich.com</span>
+                            </div>
+                        </div>
+                        <div class="employee-bio">
+                            Dedicated to customer satisfaction and support. Manages client relationships and ensures exceptional service delivery.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Tab -->
+            <div id="contact" class="tab-content">
+                <div class="section-title">
+                    📞 Contact Information
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-item" onclick="callPhone()">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Main Phone</div>
+                            <div class="contact-value">+1 (555) 101-2000</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" onclick="sendEmail()">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">info@kindrich.com</div>
+			    <div class="contact-value">info@kindrich.com</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" onclick="openWebsite()">
+                        <div class="contact-icon">🌐</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Website</div>
+                            <div class="contact-value">www.kindrich.com</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" onclick="openMaps()">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Address</div>
+                            <div class="contact-value">Brgy.Poblacion, Narra, Palawan 5303, Philippines</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item" onclick="callPhone('5551012007')">
+                        <div class="contact-icon">📠</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Fax</div>
+                            <div class="contact-value">+1 (555) 101-2007</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Business Hours</div>
+                            <div class="contact-value">Mon-Fri: 8:00 AM - 6:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="saveContact()">
+                        <span>💾</span> Save Contact
+                    </button>
+                    <button class="action-btn secondary" onclick="shareInfo()">
+                        <span>📤</span> Share Info
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const companyInfo = {
+            company: "Kindrich Consumer Goods Trading",
+            tagline: "Quality Products, Trusted Service",
+            phone: "+1 (555) 101-2000",
+            email: "info@kindrich.com",
+            website: "www.kindrich.com",
+            address: "456 Commerce Boulevard, Business District, BD 67890",
+            fax: "+1 (555) 101-2007",
+            hours: "Mon-Fri: 8:00 AM - 6:00 PM"
+        };
+        
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.classList.add('active');
+        }
+        
+        function callPhone(number) {
+            const phoneNumber = number || companyInfo.phone.replace(/\D/g, '');
+            window.open(`tel:${phoneNumber}`);
+        }
+        
+        function sendEmail() {
+            window.open(`mailto:${companyInfo.email}?subject=Inquiry from Business Card`);
+        }
+        
+        function openWebsite() {
+            const url = companyInfo.website.startsWith('http') ? companyInfo.website : `https://${companyInfo.website}`;
+            window.open(url, '_blank');
+        }
+        
+        function openMaps() {
+            const encodedAddress = encodeURIComponent(companyInfo.address);
+            window.open(`https://maps.google.com/maps?q=${encodedAddress}`, '_blank');
+        }
+        
+        function saveContact() {
+            const vCardData = `BEGIN:VCARD
+VERSION:3.0
+ORG:${companyInfo.company}
+TEL:${companyInfo.phone}
+EMAIL:${companyInfo.email}
+URL:${companyInfo.website}
+ADR:;;${companyInfo.address};;;;
+NOTE:${companyInfo.tagline}
+END:VCARD`;
+            
+            const blob = new Blob([vCardData], { type: 'text/vcard' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${companyInfo.company.replace(/\s+/g, '_')}.vcf`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function shareInfo() {
+            if (navigator.share) {
+                navigator.share({
+                    title: companyInfo.company,
+                    text: `${companyInfo.company} - ${companyInfo.tagline}`,
+                    url: window.location.href
+                });
+            } else {
+                const shareText = `${companyInfo.company}\n${companyInfo.tagline}\n\nPhone: ${companyInfo.phone}\nEmail: ${companyInfo.email}\nWebsite: ${companyInfo.website}`;
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Contact information copied to clipboard!');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
